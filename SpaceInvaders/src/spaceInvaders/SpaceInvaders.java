@@ -1,15 +1,24 @@
 package spaceInvaders;
 
-public class SpaceInvaders implements CommonInterface {
+import javax.swing.JFrame;
+
+public class SpaceInvaders extends JFrame implements CommonInterface {
 	
 	SpaceInvaders() {
-		// Call Board
-		// CAll player
+		initializeUI();
+	}
+	
+	public void initializeUI() {
+		add(new GameEnvironment());
+		setTitle("Space Invaders");
+		setSize(500,500);
+		setResizable(false);
 	}
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		SpaceInvaders game = new SpaceInvaders();
+		game.setVisible(true);
+		game.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 
 }
