@@ -15,6 +15,7 @@ public class GameEnvironment extends JPanel implements CommonInterface{
 	protected Dimension board;
 	
 	protected Player player;
+	protected EnemyShips EnemyShips;
 	/*
 	 * protected final static int movementDirection;
 	 * protected final static int speed;
@@ -31,10 +32,12 @@ public class GameEnvironment extends JPanel implements CommonInterface{
 		board = new Dimension(boardWidth, boardLength);
         setBackground(Color.black);
         player= new Player();
+        EnemyShips= new EnemyShips(5,5);
 	}
 	
-	void drawAliens()
+	void drawAliens(Graphics draw_graphics)
 	{
+		draw_graphics.drawImage(EnemyShips.getIcon(), EnemyShips.getXPos(), EnemyShips.getYPos(), this);
 		
 	}
 	
@@ -58,7 +61,7 @@ public class GameEnvironment extends JPanel implements CommonInterface{
 		
 	}
 	
-	void drawEnemnyShot()
+	void drawEnemyShot()
 	{
 		
 	}
