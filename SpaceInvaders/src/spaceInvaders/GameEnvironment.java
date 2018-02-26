@@ -26,7 +26,7 @@ public class GameEnvironment extends JPanel implements CommonInterface{
 	void initializeBoard()
 	{
 		board = new Dimension(boardWidth, boardLength);
-        setBackground(Color.black);
+                setBackground(Color.black);
 	}
 	
 	void drawAliens()
