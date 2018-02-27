@@ -1,40 +1,23 @@
-package space_Invaders;
-
 import javax.swing.ImageIcon;
 
 public class Player extends Model implements CommonInterface  {
+	// starting position of the player when the game starts
+    private int startXPos = 200;
+    private int startYPos = 340;
+
+    private final String playerImg = "src/img/ship.png";
+
+
+    public Player() {
+        initPlayer();
+    }
 	
-	//protected String playerIconLocation="space_invader_player_icon.png";
-    protected String playerIconLocation="src/space_Invaders/space_invader_player_icon.png";
-	//protected String playerIconLocation="src/space_Invaders/space_invader_player.png";
-	protected final int startXPos=150 ;
-	protected final int startYPos=150;
-	protected int width;
-	// Constructor
-	Player()
-	{
-		initPlayer();
+	void initPlayer(){		
+		ImageIcon playerIcon= new ImageIcon(playerImg);
+		setImg(playerIcon.getImage());
+		setX(startXPos);
+		setY(startYPos);		
 	}
 	
-	void initPlayer()// two ints in bracket 
-	{
-		
-		ImageIcon player_image= new ImageIcon(playerIconLocation);
-		
-		//width= player_image.getIconWidth(null);
-		width= player_image.getImage().getWidth(null);
-		setIcon(player_image.getImage());
-		setXPos(startXPos);
-		setYPos(startYPos);
-		
-		
-	}
-	
-	void firePlayerShot()
-	{
-		
-	}
-	
-	//void keyListener(KeyEvent)
 
 }

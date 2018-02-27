@@ -1,89 +1,83 @@
-package space_Invaders;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.Iterator;
 
-
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 public class GameEnvironment extends JPanel implements CommonInterface{
-	// set dimensions
-	protected final static int noOfDeaths=3;
-	protected final static int speed=5;
-	protected Dimension board;
+    private Dimension board;
+    private ArrayList<EnemyShips> enemies;
+    private Player player;
+
+    private int ENEMY_X = 150;
+    private int ENEMY_Y = 5;
+    
+    private boolean game_active = true; //see if game is still going
 	
-	protected Player player;
-	protected EnemyShips EnemyShips;
-	/*
-	 * protected final static int movementDirection;
-	 * protected final static int speed;
-	 * dimensions 
-	 */
-	
-	GameEnvironment()
-	{
+	public GameEnvironment(){
 		initializeBoard();
 	}
 	
-	void initializeBoard()
-	{
-		board = new Dimension(boardWidth, boardLength);
+	private void initializeBoard(){
+		board = new Dimension(BOARD_WIDTH, BOARD_HEIGHT);
         setBackground(Color.black);
-        player= new Player();
-        EnemyShips= new EnemyShips(5,5);
+        startGame();
 	}
+
+    public void startGame() {
+    	//create 24 Aliens
+    	enemies = new ArrayList<EnemyShips>();
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 6; j++) {
+            	EnemyShips e = new EnemyShips(ENEMY_X + 18 * j, ENEMY_Y + 18 * i);
+            	enemies.add(e);
+            }
+        }
+        //create player
+        player = new Player();
+    }
 	
-	void drawAliens(Graphics draw_graphics)
-	{
-		draw_graphics.drawImage(EnemyShips.getIcon(), EnemyShips.getXPos(), EnemyShips.getYPos(), this);
-		
-	}
-	
-	void drawPlayer(Graphics draw_graphics)
-	{
-	{   
-		//Player.paintIcon(this, draw_graphics, player.getXPos(), player.getYPos());
-		draw_graphics.drawImage(player.getIcon(), player.getXPos(), player.getYPos(), this);
+    public void drawEnemys(Graphics g) {
+        for (EnemyShips e: enemies) {
+            if (e.isVisible()) {
+                g.drawImage(e.getImg(), e.getX(), e.getY(), this);
+            }
+            if (e.getIsDead()) {
+            	e.die();
+            }
+        }
+    }
+     
+    public void drawPlayer(Graphics g) {
+        if (player.isVisible()) {           
+            g.drawImage(player.getImg(), player.getX(), player.getY(), this);
+        }
+
+        if (player.getIsDead()) {
+            player.die();
+            game_active = false;
+        }
+    }
+    
+    
+    @Override
+    //draw the ground, aliens, player,shot, and bombs.
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+ 
+        //board & ground
+        g.setColor(Color.black);
+        g.fillRect(0, 0, board.width, board.height);
+        g.setColor(Color.white);
+    	g.drawLine(0, GROUND, BOARD_WIDTH, GROUND);
+        
+    	//players & enemy        
+    	if(game_active) {
+        	drawEnemys(g);
+        	drawPlayer(g);
+        }
     }
 
-    /*if (player.getIsDead()) {
 
-        player.die();
-        ingame = false;
-    }*/
-		
-	}
-	
-	void drawShot()
-	{
-		
-	}
-	
-	void drawEnemyShot()
-	{
-		
-	}
-	
-	void drawComponent()
-	{
-	
-	}
-	
-	void endOfGame()
-	{
-	
-	}
-	
-	void setSpeed(int speed)
-	{
-	
-	}
-	
-	int getSpeed()
-	{
-	    return 0;
-	}
 
 }
