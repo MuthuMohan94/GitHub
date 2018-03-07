@@ -8,6 +8,8 @@ public class GameEnvironment extends JPanel implements CommonInterface{
     private Dimension board;
     private ArrayList<EnemyShips> enemies;
     private Player player;
+	private Bomb bomb;
+
 
     private int ENEMY_X = 150;
     private int ENEMY_Y = 5;
@@ -23,6 +25,12 @@ public class GameEnvironment extends JPanel implements CommonInterface{
         setBackground(Color.black);
         startGame();
 	}
+	@Override
+	public void addNotify()
+	{
+		super.addNotify();
+		startGame();
+	}
 
     public void startGame() {
     	//create 24 Aliens
@@ -35,6 +43,7 @@ public class GameEnvironment extends JPanel implements CommonInterface{
         }
         //create player
         player = new Player();
+	    bomb=new Bomb();
     }
 	
     public void drawEnemys(Graphics g) {
@@ -58,6 +67,14 @@ public class GameEnvironment extends JPanel implements CommonInterface{
             game_active = false;
         }
     }
+	// Draw the bomb
+	 public void drawBomb(Graphics g)
+    {
+    	if(bomb.isVisible())
+    	{
+    		g.drawImage(bomb.getImg(),bomb.getX(), bomb.getY(),this);
+    	}
+    }
     
     
     @Override
@@ -69,12 +86,14 @@ public class GameEnvironment extends JPanel implements CommonInterface{
         g.setColor(Color.black);
         g.fillRect(0, 0, board.width, board.height);
         g.setColor(Color.white);
-    	g.drawLine(0, GROUND, BOARD_WIDTH, GROUND);
+    	
         
     	//players & enemy        
     	if(game_active) {
+		g.drawLine(0, GROUND, BOARD_WIDTH, GROUND);
         	drawEnemys(g);
         	drawPlayer(g);
+		drawBomb(g);
         }
     }
 
