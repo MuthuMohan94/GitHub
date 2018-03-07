@@ -4,10 +4,10 @@ import java.awt.Image;
 public class Model {
 	protected int x;
 	protected int y;
-	protected Image img;
+	protected Image image;
 	protected boolean isVisible;
 	protected boolean isdead;
-//    protected int dx;
+      protected int d;
 
 	public Model(){
 		isVisible = true;  //set everything to visible when first initialized
@@ -47,11 +47,11 @@ public class Model {
 		this.isVisible = isVisible;
 	}
 
-	public void setImg(Image img){ 
-		this.img = img;    //attach the icon to the model object
+	public void setImg(Image image){ 
+		this.image = image;    //attach the icon to the model object
 	}
 
 	public Image getImg(){
-		return img;
+		return image;
 	}
 }
