@@ -1,3 +1,5 @@
+package spaceInvaders;
+
 public interface CommonInterface {
 	//board
     public static final int BOARD_WIDTH = 400;

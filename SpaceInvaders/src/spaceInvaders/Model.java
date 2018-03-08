@@ -1,3 +1,5 @@
+package spaceInvaders;
+
 import java.awt.Image;
 
 //define the properties & mutators of icons like EnemyShips, Player

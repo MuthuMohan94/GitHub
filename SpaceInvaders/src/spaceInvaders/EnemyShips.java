@@ -1,3 +1,5 @@
+package spaceInvaders;
+
 import javax.swing.ImageIcon;
 
 public class EnemyShips extends Model{

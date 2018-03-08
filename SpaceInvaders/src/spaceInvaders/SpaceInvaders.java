@@ -1,3 +1,5 @@
+package spaceInvaders;
+
 // Main function is inside this 
 import java.awt.EventQueue;
 

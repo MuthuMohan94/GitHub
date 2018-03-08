@@ -1,3 +1,5 @@
+package spaceInvaders;
+
 import java.awt.event.KeyEvent;
 
 import javax.swing.ImageIcon;

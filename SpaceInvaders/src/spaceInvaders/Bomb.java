@@ -1,4 +1,4 @@
-package invaders;
+package spaceInvaders;
 
 import javax.swing.ImageIcon;
 
