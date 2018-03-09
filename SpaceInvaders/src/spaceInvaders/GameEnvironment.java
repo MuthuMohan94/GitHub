@@ -27,6 +27,7 @@ public class GameEnvironment extends JPanel implements Runnable, Commons {
     private final int ALIEN_INIT_Y = 5;
     private int direction = -1;
     private int deaths = 0;
+    public static int DELAY = 15;
 
     private boolean ingame = true;
     private final String explImg = "src/images/explosion.png";
@@ -35,7 +36,7 @@ public class GameEnvironment extends JPanel implements Runnable, Commons {
     private Thread animator;
     private final Object pauseLock = new Object();
     private volatile boolean running = true;
-    private volatile boolean paused = false;
+    volatile static boolean paused = true;
 
     public GameEnvironment() {
 

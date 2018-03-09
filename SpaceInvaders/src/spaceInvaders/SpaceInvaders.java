@@ -30,6 +30,12 @@ public class SpaceInvaders extends JFrame implements Commons, ActionListener {
 	JPanel levels = new JPanel();
 	CardLayout layout = new CardLayout();
 	
+	JButton one = new JButton("1");
+	JButton two = new JButton("2");
+	JButton three = new JButton("3");
+	JButton four = new JButton("4");
+	JButton five = new JButton("5");
+	
 	GameEnvironment board = new GameEnvironment();
 	
     public SpaceInvaders() {
@@ -90,34 +96,34 @@ public class SpaceInvaders extends JFrame implements Commons, ActionListener {
 	    panel.add(levels, "Levels");
 	    levels.setLayout(null);
 	    
-	    JButton one = new JButton("1");
+	    
 	    one.setBounds(147, 138, 297, 71);
 	    one.addActionListener(this);
 	    levels.add(one);
 	    
-	    JButton two = new JButton("2");
+	    
 	    two.setBounds(147, 220, 297, 71);
 	    two.addActionListener(this);
 	    levels.add(two);
 	    
-	    JButton three = new JButton("3");
+	    
 	    three.setBounds(147, 302, 297, 71);
 	    three.addActionListener(this);
 	    levels.add(three);
 	    
-	    JButton four = new JButton("4");
+	    
 	    four.setBounds(147, 384, 297, 71);
 	    four.addActionListener(this);
 	    levels.add(four);
 	    
-	    JButton five = new JButton("5");
+	    
 	    five.setBounds(147, 466, 297, 71);
 	    five.addActionListener(this);
 	    levels.add(five);
 	    
-	    mainMenu.setBounds(147, 579, 297, 70);
-	    mainMenu.addActionListener(this);
-	    levels.add(mainMenu);
+	    mainMenu2.setBounds(147, 579, 297, 70);
+	    mainMenu2.addActionListener(this);
+	    levels.add(mainMenu2);
 	    
 	    JLabel lblLevelSelection = new JLabel("LEVEL SELECTION");
 	    lblLevelSelection.setForeground(Color.WHITE);
@@ -129,7 +135,7 @@ public class SpaceInvaders extends JFrame implements Commons, ActionListener {
 	    getContentPane().add(panel);
 	    layout.show(panel,"Menu");
 	}
-
+    
 	public void actionPerformed(ActionEvent event) {
 
 		Object source = event.getSource();
@@ -137,22 +143,24 @@ public class SpaceInvaders extends JFrame implements Commons, ActionListener {
 	        System.exit(0);
 	    } else if (source == play) {
 	        layout.show(panel, "Game");
+	        GameEnvironment.paused = false;
 	        board.requestFocus();
 	    } else if (source == level){
 	    	layout.show(panel, "Levels");
 	    } else if (source == mainMenu){
+	    	GameEnvironment.paused = true;
 	        layout.show(panel, "Menu");
-	    } else if (source == "one") {
-	    	// set one
-	    } else if (source == "two") {
-	    	// set two
-	    } else if (source == "three") {
-	    	// set three
-	    } else if (source == "four") {
-	    	// set four
-	    } else if (source == "five") {
-	    	// set five
-	    } else if (source == "mainMenu2") {
+	    } else if (source == one) {
+	    	GameEnvironment.DELAY = 15;
+	    } else if (source == two) {
+	    	GameEnvironment.DELAY = 12;
+	    } else if (source == three) {
+	    	GameEnvironment.DELAY = 9;
+	    } else if (source == four) {
+	    	GameEnvironment.DELAY = 7;
+	    } else if (source == five) {
+	    	GameEnvironment.DELAY = 5;
+	    } else if (source == mainMenu2) {
 	    	layout.show(panel, "Menu");
 	    }
 	}
