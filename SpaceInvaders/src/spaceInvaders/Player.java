@@ -4,65 +4,70 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.ImageIcon;
 
-public class Player extends Model implements CommonInterface  {
-	// starting position of the player when the game starts
-    private int startXPos = 200;
-    private int startYPos = 340;
+public class Player extends Models implements Commons {
 
-    private final String playerImg = "src/img/ship.png";
-    private int Width;
+    private final int START_Y = 540;
+    private final int START_X = 300;
 
+    private final String playerImg = "src/ship.png";
+    private int width;
 
     public Player() {
+
         initPlayer();
     }
-	
-	void initPlayer(){		
-		ImageIcon i= new ImageIcon(playerImg);
-		Width = i.getImage().getWidth(null);
-		setImg(i.getImage());
-		setX(startXPos);
-		setY(startYPos);		
-	}
-	
-	public void act()
-	{
-		
-		x+=d;
-		if(x<=2) {
-			x=2;
-		}
-		if(x>=BOARD_WIDTH-2*Width)
-		{
-			x=BOARD_WIDTH-2*Width;
-		}
-	}
-	public void keypressed(KeyEvent e)
-	{
-		int k=e.getKeyCode();
-		// if left cursor key pressed
-		if(k==KeyEvent.VK_LEFT)
-		{
-			d=-2;
-		}
-		//if right cursor key pressed
-		if(k==KeyEvent.VK_RIGHT)
-		{
-			d=2;
-		}
-	}
-	// if both keys are released
-	public void keyreleased(KeyEvent e)
-	{
-		int k=e.getKeyCode();
-		if(k==KeyEvent.VK_LEFT)
-		{
-			d=0;
-		}
-	if(k==KeyEvent.VK_RIGHT)
-	{
-		d=0;
-	}
-	}
 
+    private void initPlayer() {
+        
+        ImageIcon ii = new ImageIcon(playerImg);
+
+        width = ii.getImage().getWidth(null);
+
+        setImage(ii.getImage());
+        setX(START_X);
+        setY(START_Y);
+    }
+
+    public void act() {
+        
+        x += dx;
+        
+        if (x <= 2) {
+            x = 2;
+        }
+        
+        if (x >= BOARD_WIDTH - 2 * width) {
+            x = BOARD_WIDTH - 2 * width;
+        }
+    }
+
+    public void keyPressed(KeyEvent e) {
+        
+        int key = e.getKeyCode();
+
+        if (key == KeyEvent.VK_LEFT) {
+        
+            dx = -2;
+        }
+
+        if (key == KeyEvent.VK_RIGHT) {
+        
+            dx = 2;
+        }
+    }
+
+    public void keyReleased(KeyEvent e) {
+        
+        int key = e.getKeyCode();
+
+        if (key == KeyEvent.VK_LEFT) {
+        
+            dx = 0;
+        }
+
+        if (key == KeyEvent.VK_RIGHT) {
+        
+            dx = 0;
+        }
+    }
 }
