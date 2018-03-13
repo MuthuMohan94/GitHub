@@ -129,7 +129,7 @@ public class SpaceInvaders extends JFrame implements Commons, ActionListener {
 	    mainMenu2.addActionListener(this);
 	    levels.add(mainMenu2);
 	    
-	    JLabel lblLevelSelection = new JLabel("LEVEL SELECTION");
+	    JLabel lblLevelSelection = new JLabel("DIFFICULTY SETTING");
 	    lblLevelSelection.setForeground(Color.WHITE);
 	    lblLevelSelection.setHorizontalAlignment(SwingConstants.CENTER);
 	    lblLevelSelection.setFont(new Font("Tahoma", Font.BOLD, 50));
@@ -178,7 +178,6 @@ public class SpaceInvaders extends JFrame implements Commons, ActionListener {
 	}
 
     public static void main(String[] args) {
-        
         EventQueue.invokeLater(() -> {
             SpaceInvaders ex = new SpaceInvaders();
             ex.setVisible(true);
