@@ -12,11 +12,10 @@ public class Models {
     protected int dx;
 
     public Models() {
-    
         visible = true;
     }
 
-    public void die() {
+    public void isDead() {
     
         visible = false;
     }
@@ -31,7 +30,7 @@ public class Models {
         this.visible = visible;
     }
 
-    public void setImage(Image image) {
+    public void setIcon(Image image) {
     
         this.image = image;
     }

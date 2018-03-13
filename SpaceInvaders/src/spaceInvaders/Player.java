@@ -6,67 +6,47 @@ import javax.swing.ImageIcon;
 
 public class Player extends Models implements Commons {
 
-    private final int START_Y = 540;
-    private final int START_X = 300;
+    private final int playerStartY = 540;
+    private final int playerStartX = 300;
 
-    private final String playerImg = "src/ship.png";
+    ImageIcon playerIcon = new ImageIcon("src/pship25.png");
     private int width;
 
     public Player() {
-
-        initPlayer();
+        setPlayer();
     }
 
-    private void initPlayer() {
-        
-        ImageIcon ii = new ImageIcon(playerImg);
-
-        width = ii.getImage().getWidth(null);
-
-        setImage(ii.getImage());
-        setX(START_X);
-        setY(START_Y);
+    private void setPlayer() {
+        width = playerIcon.getImage().getWidth(null);
+        setIcon(playerIcon.getImage());
+        setX(playerStartX);
+        setY(playerStartY);
     }
 
-    public void act() {
-        
+    public void move() {
         x += dx;
-        
         if (x <= 2) {
             x = 2;
         }
-        
-        if (x >= BOARD_WIDTH - 2 * width) {
-            x = BOARD_WIDTH - 2 * width;
+        if (x >= gameFrameWidth - 2 * width) {
+            x = gameFrameWidth - 2 * width;
         }
     }
 
     public void keyPressed(KeyEvent e) {
-        
-        int key = e.getKeyCode();
-
-        if (key == KeyEvent.VK_LEFT) {
-        
+        if (e.getKeyCode() == KeyEvent.VK_LEFT) {
             dx = -2;
         }
-
-        if (key == KeyEvent.VK_RIGHT) {
-        
+        if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
             dx = 2;
         }
     }
 
     public void keyReleased(KeyEvent e) {
-        
-        int key = e.getKeyCode();
-
-        if (key == KeyEvent.VK_LEFT) {
-        
+        if (e.getKeyCode() == KeyEvent.VK_LEFT) {
             dx = 0;
         }
-
-        if (key == KeyEvent.VK_RIGHT) {
-        
+        if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
             dx = 0;
         }
     }

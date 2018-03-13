@@ -19,7 +19,7 @@ public class Shot extends Models {
     private void initShot(int x, int y) {
 
         ImageIcon ii = new ImageIcon(shotImg);
-        setImage(ii.getImage());
+        setIcon(ii.getImage());
         
         setX(x + H_SPACE);
         setY(y - V_SPACE);
