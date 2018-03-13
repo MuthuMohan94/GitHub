@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
@@ -18,9 +19,9 @@ public class SpaceInvaders extends JFrame implements Commons, ActionListener {
 
 	int width, height;
 	
-	JButton play = new JButton("Play");
-	JButton level = new JButton("Levels");
-	JButton exit = new JButton("Exit");
+	JButton play = new JButton("Resume");
+	JButton level = new JButton("Difficulty Setting");
+	JButton newGame = new JButton("New Game");
 	JButton mainMenu = new JButton("Main Menu");
 	JButton mainMenu2 = new JButton("Main Menu");
 	
@@ -35,6 +36,8 @@ public class SpaceInvaders extends JFrame implements Commons, ActionListener {
 	JButton three = new JButton("3");
 	JButton four = new JButton("4");
 	JButton five = new JButton("5");
+	
+	volatile boolean gameStarted = false;
 	
 	GameEnvironment board = new GameEnvironment();
 	
@@ -70,13 +73,14 @@ public class SpaceInvaders extends JFrame implements Commons, ActionListener {
 		play.addActionListener(this);
 	    level.setBounds(209, 439, 171, 55);
 	    level.addActionListener(this);
-	    exit.setBounds(209, 548, 171, 55);
+	    newGame.setBounds(209, 548, 171, 55);
+	    newGame.addActionListener(this);
 	    menu.setLayout(null);
 
 	    //menu buttons
 	    menu.add(play);
 	    menu.add(level);
-	    menu.add(exit);
+	    menu.add(newGame);
 	    game.setLayout(new BorderLayout(0, 0));
 
 	    //background colors
@@ -139,12 +143,20 @@ public class SpaceInvaders extends JFrame implements Commons, ActionListener {
 	public void actionPerformed(ActionEvent event) {
 
 		Object source = event.getSource();
-	    if (source == exit) {
-	        System.exit(0);
+		if (source == newGame) {
+			gameStarted = true;
+	    	layout.show(panel, "Game");
+	    	GameEnvironment.paused = false;
+	    	board.requestFocus();
+	    	board.createGameEnvironment();
 	    } else if (source == play) {
-	        layout.show(panel, "Game");
-	        GameEnvironment.paused = false;
-	        board.requestFocus();
+	    	if(gameStarted == true) {
+	    		layout.show(panel, "Game");
+	    		GameEnvironment.paused = false;
+	    		board.requestFocus();
+	    	} else {
+	    		JOptionPane.showMessageDialog(null, "Game hasn't started yet! Please start a game first!");
+	    	}
 	    } else if (source == level){
 	    	layout.show(panel, "Levels");
 	    } else if (source == mainMenu){

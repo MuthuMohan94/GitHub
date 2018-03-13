@@ -44,11 +44,9 @@ public class GameEnvironment extends JPanel implements Runnable, Commons {
 
     public GameEnvironment() {
     	
-    	// Create the game's environment
-        createGameEnvironment();
     }
 
-    private void createGameEnvironment() {
+    protected void createGameEnvironment() {
 
     	// adding input key listeners to current panel
         addKeyListener(new KeyWatcher());
@@ -71,7 +69,6 @@ public class GameEnvironment extends JPanel implements Runnable, Commons {
 
     @Override
     public void addNotify() {
-
         super.addNotify();
         initializeGame();
     }
@@ -80,7 +77,6 @@ public class GameEnvironment extends JPanel implements Runnable, Commons {
 
     	// Create enemy ships
         enemyShips = new ArrayList<>();
-
         
         for (int i = 0; i < numberOfRowsEnemyShips; i++) {
             for (int j = 0; j < numberOfColumnsEnemyShips; j++) {
@@ -89,20 +85,17 @@ public class GameEnvironment extends JPanel implements Runnable, Commons {
                 enemyShips.add(enemyShip);
             }
         }
-        
         player = new Player();
         shot = new Shot();
-
+        
         // If it hasn't been initialized yet, then initialize it.
         if (animationThread == null || !inGame) {
-
             animationThread = new Thread(this);
             animationThread.start();
         }
     }
 
     public void drawEnemyShips(Graphics g) {
-
         for (EnemyShips enemyShip: enemyShips) {
             if (enemyShip.isVisible()) {
                 g.drawImage(enemyShip.getImage(), enemyShip.getX(), enemyShip.getY(), this);
@@ -124,21 +117,15 @@ public class GameEnvironment extends JPanel implements Runnable, Commons {
     }
 
     public void drawShot(Graphics g) {
-
         if (shot.isVisible()) {
-            
             g.drawImage(shot.getImage(), shot.getX(), shot.getY(), this);
         }
     }
 
     public void drawBombing(Graphics g) {
-
         for (EnemyShips a : enemyShips) {
-            
             EnemyShot b = a.getCurrentShot();
-
-            if (!b.isDestroyed()) {
-                
+            if (!b.isDestroyed()) { 
                 g.drawImage(b.getImage(), b.getX(), b.getY(), this);
             }
         }
@@ -147,26 +134,23 @@ public class GameEnvironment extends JPanel implements Runnable, Commons {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-
         g.setColor(Color.black);
         g.fillRect(0, 0, d.width, d.height);
         g.setColor(Color.green);
-
         if (inGame) {
-
             g.drawLine(0, playerEventHorizon, gameFrameWidth, playerEventHorizon);
             drawEnemyShips(g);
             drawPlayer(g);
             drawShot(g);
             drawBombing(g);
         }
-
         Toolkit.getDefaultToolkit().sync();
         g.dispose();
     }
 
     public void gameOver() {
 
+    	// Print game over message
         Graphics g = this.getGraphics();
 
         g.setColor(Color.black);
