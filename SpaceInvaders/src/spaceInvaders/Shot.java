@@ -5,10 +5,11 @@ import javax.swing.ImageIcon;
 public class Shot extends Models {
 
     private final String shotImg = "src/shot.png";
-    private final int H_SPACE = 6;
-    private final int V_SPACE = 1;
-
+    private final int horizontalSpace = 6;
+    private final int verticalSpace = 1;
+ 
     public Shot() {
+    	// Sometimes we need to create a shot without initializing it first, so default constructor needed
     }
 
     public Shot(int x, int y) {
@@ -18,10 +19,10 @@ public class Shot extends Models {
 
     private void initShot(int x, int y) {
 
-        ImageIcon ii = new ImageIcon(shotImg);
-        setIcon(ii.getImage());
+        ImageIcon shotIcon = new ImageIcon(shotImg);
+        setIcon(shotIcon.getImage());
         
-        setX(x + H_SPACE);
-        setY(y - V_SPACE);
+        setX(x + horizontalSpace);
+        setY(y - verticalSpace);
     }
 }
