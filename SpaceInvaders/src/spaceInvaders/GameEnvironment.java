@@ -14,6 +14,7 @@ import java.util.Iterator;
 import java.util.Random;
 
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class GameEnvironment extends JPanel implements Runnable, Commons {
@@ -30,7 +31,6 @@ public class GameEnvironment extends JPanel implements Runnable, Commons {
     public static int speedOfGame = 15;
 
     private boolean inGame = true;
-    private final String explImg = "src/images/explosion.png";
     private String message = "Game Over";
 
     // Thread used to animate/draw objects
@@ -145,7 +145,7 @@ public class GameEnvironment extends JPanel implements Runnable, Commons {
             drawBombing(g);
         }
         Toolkit.getDefaultToolkit().sync();
-        g.dispose();
+        // g.dispose();
     }
 
     public void gameOver() {
@@ -172,6 +172,8 @@ public class GameEnvironment extends JPanel implements Runnable, Commons {
 
     public void animationCycle() {
 
+    	
+    	
         if (deaths == NUMBER_OF_ALIENS_TO_DESTROY) {
 
             inGame = false;
@@ -186,6 +188,7 @@ public class GameEnvironment extends JPanel implements Runnable, Commons {
 
             int shotX = shot.getX();
             int shotY = shot.getY();
+            int y;
 
             for (EnemyShips alien: enemyShips) {
 
@@ -197,9 +200,6 @@ public class GameEnvironment extends JPanel implements Runnable, Commons {
                             && shotX <= (alienX + enemyShipIconWidth)
                             && shotY >= (alienY)
                             && shotY <= (alienY + enemyShipIconHeight)) {
-                        ImageIcon ii
-                                = new ImageIcon(explImg);
-                        alien.setIcon(ii.getImage());
                         alien.setDying(true);
                         deaths++;
                         shot.isDead();
@@ -207,8 +207,7 @@ public class GameEnvironment extends JPanel implements Runnable, Commons {
                 }
             }
 
-            int y = shot.getY();
-            y -= 4;
+            y = shot.getY()-4;
 
             if (y < 0) {
                 shot.isDead();
@@ -252,13 +251,9 @@ public class GameEnvironment extends JPanel implements Runnable, Commons {
         Iterator it = enemyShips.iterator();
 
         while (it.hasNext()) {
-            
             EnemyShips alien = (EnemyShips) it.next();
-            
             if (alien.isVisible()) {
-
                 int y = alien.getY();
-
                 if (y > playerEventHorizon - enemyShipIconHeight) {
                     inGame = false;
                     message = "Invasion!";
@@ -270,42 +265,30 @@ public class GameEnvironment extends JPanel implements Runnable, Commons {
 
         // bombs
         Random generator = new Random();
-
+        int enemyShotX,enemyShotY;
+        int playerX, playerY;
+        int shot;
+        
         for (EnemyShips alien: enemyShips) {
-
-            int shot = generator.nextInt(15);
+            shot = generator.nextInt(15);
             EnemyShot b = alien.getCurrentShot();
-
             if (shot == probabilityOfShot && alien.isVisible() && b.isDestroyed()) {
-
                 b.setDestroyed(false);
                 b.setX(alien.getX());
                 b.setY(alien.getY());
             }
-
-            int bombX = b.getX();
-            int bombY = b.getY();
-            int playerX = player.getX();
-            int playerY = player.getY();
-
+            enemyShotX = b.getX();
+            enemyShotY = b.getY();
+            playerX = player.getX();
+            playerY = player.getY();
             if (player.isVisible() && !b.isDestroyed()) {
-
-                if (bombX >= (playerX)
-                        && bombX <= (playerX + playerIconWidth)
-                        && bombY >= (playerY)
-                        && bombY <= (playerY + playerIconHeight)) {
-                    ImageIcon ii
-                            = new ImageIcon(explImg);
-                    player.setIcon(ii.getImage());
+                if (enemyShotX >= (playerX) && enemyShotX <= (playerX + playerIconWidth) && enemyShotY >= (playerY) && enemyShotY <= (playerY + playerIconHeight)) {
                     player.setDying(true);
                     b.setDestroyed(true);
                 }
             }
-
             if (!b.isDestroyed()) {
-                
                 b.setY(b.getY() + 1);
-                
                 if (b.getY() >= playerEventHorizon - shotSize) {
                     b.setDestroyed(true);
                 }
@@ -316,65 +299,76 @@ public class GameEnvironment extends JPanel implements Runnable, Commons {
     @Override
     public void run() {
 
-        long beforeTime, timeDiff, sleep;
+        long startTime, timeDiff, sleepTime;
 
-        beforeTime = System.currentTimeMillis();
-
+        startTime = System.currentTimeMillis();
+        
+        // Main Game Loop
         while (inGame) {
         	synchronized(pauseLock) {
+        		
+        		// If Game over then exit game
         		if(!inGame)
         			break;
+        		
+        		// If the game is paused then wait till lock is removed
         		if(paused) {
         			try {
 						pauseLock.wait();
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						JOptionPane.showMessageDialog(null, "An error occurred. Please restart the game");
 					}
+        			
+        			// Game could be exitted while in pause state. This should be accounted for
         			if(!inGame) {
         				break;
         			}
         		}
+        		
+        		// call paintComponent again
         		repaint();
+        		// do the animation cycle
         		animationCycle();
 
-        		timeDiff = System.currentTimeMillis() - beforeTime;
-        		sleep = speedOfGame - timeDiff;
-
-        		if (sleep < 0) {
-        			sleep = 2;
+        		timeDiff = System.currentTimeMillis() - startTime;
+        		// Adjust speed of game/thread by taking time difference and setting sleep to a lower level
+        		sleepTime = speedOfGame - timeDiff;
+        		
+        		// Threshold speed level 
+        		if (sleepTime < 0) {
+        			sleepTime = 2;
         		}
 
         		try {
-        			Thread.sleep(sleep);
+        			Thread.sleep(sleepTime);
         		} catch (InterruptedException e) {
         			System.out.println("interrupted");
         		}
-
-        		beforeTime = System.currentTimeMillis();
+        		startTime = System.currentTimeMillis();
         	}
         }
-
         gameOver();
     }
     
-    public void stop() {
+    // This method stops the game thread
+    public void stopGame() {
         inGame = false;
-        // you might also want to interrupt() the Thread that is 
-        // running this Runnable, too, or perhaps call:
-        resume();
-        // to unblock
+        resumeGame();
     }
 
-    public void pause() {
-        // you may want to throw an IllegalStateException if !running
+    // This method pauses the game thread
+    public void pauseGame() {
         paused = true;
     }
 
-    public void resume() {
+    public void resumeGame() {
         synchronized (pauseLock) {
+        	
+        	// Set paused state variable
             paused = false;
-            pauseLock.notifyAll(); // Unblocks thread
+            
+            // this will unblock the thread
+            pauseLock.notifyAll();
         }
     }
 
@@ -400,10 +394,10 @@ public class GameEnvironment extends JPanel implements Runnable, Commons {
                 }
             }
             if( e.getKeyCode() == KeyEvent.VK_P) {
-            	paused = true;
+            	pauseGame();
             }
             if( e.getKeyCode() == KeyEvent.VK_R) {
-            	resume();
+            	resumeGame();
             }
         }
     }

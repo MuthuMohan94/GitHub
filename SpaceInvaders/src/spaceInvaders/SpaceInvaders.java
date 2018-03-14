@@ -163,13 +163,13 @@ public class SpaceInvaders extends JFrame implements Commons, ActionListener {
 	    	GameEnvironment.paused = true;
 	        layout.show(panel, "Menu");
 	    } else if (source == one) {
-	    	GameEnvironment.speedOfGame = 15;
+	    	GameEnvironment.speedOfGame = 10;
 	    } else if (source == two) {
-	    	GameEnvironment.speedOfGame = 12;
-	    } else if (source == three) {
 	    	GameEnvironment.speedOfGame = 9;
-	    } else if (source == four) {
+	    } else if (source == three) {
 	    	GameEnvironment.speedOfGame = 7;
+	    } else if (source == four) {
+	    	GameEnvironment.speedOfGame = 6;
 	    } else if (source == five) {
 	    	GameEnvironment.speedOfGame = 5;
 	    } else if (source == mainMenu2) {
