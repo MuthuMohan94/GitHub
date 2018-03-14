@@ -85,7 +85,7 @@ public class GameEnvironment extends JPanel implements Runnable, Commons {
                 enemyShips.add(enemyShip);
             }
         }
-        player = new Player();
+        player = Player.getInstance();
         shot = new Shot();
         
         // If it hasn't been initialized yet, then initialize it.

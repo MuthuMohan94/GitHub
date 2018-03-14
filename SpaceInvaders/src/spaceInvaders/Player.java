@@ -9,10 +9,17 @@ public class Player extends Models implements Commons {
     private final int playerStartY = 540;
     private final int playerStartX = 300;
 
-    ImageIcon playerIcon = new ImageIcon("src/pship25.png");
+    ImageIcon playerIcon = new ImageIcon("src/pship.png");
     private int width;
-
-    public Player() {
+    
+    private static final Player player = new Player();
+    
+    
+    public static Player getInstance() {
+    		return player;
+    }
+    
+    private Player() {
         setPlayer();
     }
 
